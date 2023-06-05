@@ -11,11 +11,11 @@ jobs:
         - name: login to Docker Hub
           uses: docker/loging-action@v1
           with:
-            username: ${{ DOCKERHUB_USER }}
-            password: ${{ DOCKERHUB_TOKEN }}
+            username: ${{ secrets.DOCKERHUB_USER }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
         - name: checkout
-          uses: actions
+          uses: actions/checkout@v2
         - name: Test
           run: docker-compose run --rm app sh -c "python manage.py test"
         - name: Lint
-          run: docker-compose run --rm app sh -c "pythonn manage.py flake8"
+          run: docker-compose run --rm app sh -c "flake8"

@@ -9,22 +9,29 @@ from django.core.management import call_command
 from django.db.utils import OperationalError
 from django.test import SimpleTestCase
 
+
 @patch('core.managememt.commands.wait_for_db.Command.check')
 class DommandsTest(SimpleTestCase):
     """Test Commands"""
 
     def test_wait_for_db_ready(self, patched_check):
-        """Test waiting for database if the database is ready. we do this via mocking"""
+        """Test waiting for database if the database is ready.
+        we do this via mocking"""
         patched_check.return_value = True
 
         call_command('wait_for_db')
 
         patched_check.assert_called_onnce_with(database=['default'])
-    
-    def test_wait_for_db_delay(self, patched_check):
+
+    @patch('time.sleep')
+    # is the variable patched_sleep they got added inside->out
+    def test_wait_for_db_delay(self, patched_sleep, patched_check):
         """Test waiting for database when getting OperationalError"""
-        patched_check.side_effect = [Psycorpg2Error] * 2 + [OperationalError] * 3 + [True]
+
+        patched_check.side_effect = [Psycorpg2Error] * 2 \
+            + [OperationalError] * 3 + [True]
 
         call_command('wait_for_db')
 
         self.assertEqual(patched_check.call_count, 6)
+        patched_check.assert_called_with(database=['default'])

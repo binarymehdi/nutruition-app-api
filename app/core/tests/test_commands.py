@@ -11,7 +11,7 @@ from django.test import SimpleTestCase
 
 
 @patch('core.management.commands.wait_for_db.Command.check')
-class DommandTests(SimpleTestCase):
+class CommandTests(SimpleTestCase):
     """Test Commands"""
 
     def test_wait_for_db_ready(self, patched_check):
@@ -21,7 +21,7 @@ class DommandTests(SimpleTestCase):
 
         call_command('wait_for_db')
 
-        patched_check.assert_called_onnce_with(database=['default'])
+        patched_check.assert_called_once_with(databases=['default'])
 
     @patch('time.sleep')
     # is the variable patched_sleep they got added inside->out

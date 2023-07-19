@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-i$jn-z&-&x3@elnp7dwjgj6u4c@_ypgte)!+rly#jwkexlqv7j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.165']
 
 
 # Application definition
@@ -139,4 +139,3 @@ AUTH_USER_MODEL = 'core.User'
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
-
